@@ -22,10 +22,10 @@ class HTTPService implements BaseHttpService{
   /// initializes a new instance of `NetworkService`.
   /// * [defaultTimeLimit] defaults to 10 seconds if not set.
   /// * [retryPolicy] defauts to 3 times if not set.
-  HTTPService(Client client, {Duration? defaultTimeLimit, RetryOptions? retryPolicy})
+  HTTPService({Client? client, Duration? defaultTimeLimit, RetryOptions? retryPolicy})
       : _defaultTimeLimit = defaultTimeLimit ?? const Duration(seconds: 10),
         _retryPolicy = retryPolicy ?? const RetryOptions(maxAttempts: 3),
-        _client = client;
+        _client = client ?? Client();
 
   @override
   void close() => _client.close();
