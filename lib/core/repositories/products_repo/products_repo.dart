@@ -13,8 +13,8 @@ class ProductsRepository implements BaseProductsRepository {
   final BaseHttpService _httpService;
 
   const ProductsRepository({
-    required BaseHttpService networkService,
-  }) : _httpService = networkService;
+    required BaseHttpService httpService,
+  }) : _httpService = httpService;
 
   Map<String, String> get _defaultHeader => const {
     HttpHeaders.contentTypeHeader: 'application/json',
