@@ -29,6 +29,10 @@ class ErrorHandler {
     } else {
       onCatch(customUnknownErrorMessage ?? AppErrorMessages.unknownError);
     }
+    
+    if (foundation.kDebugMode) {
+      dev.log(error.toString());
+    }
   }
 
   static CustomHttpException transformStatusCodeToException({
