@@ -51,10 +51,8 @@ class ProductsRepository implements BaseProductsRepository {
 
     if (response.statusCode == 200) {
       final map = json.decode(response.body) as Map<String, dynamic>;
-      final data = map['data'] as List<Map<String, dynamic>>;
-      return List<Product>.from(
-        data.map((d) => Product.fromMap(d)),
-      );
+      final data = map['data'] as List;
+      return data.map((d) => Product.fromMap(d as Map<String, dynamic>)).toList();
     } else {
       throw ErrorHandler.transformStatusCodeToException(
         statusCode: response.statusCode,
