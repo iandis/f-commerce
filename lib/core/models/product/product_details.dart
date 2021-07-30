@@ -27,21 +27,21 @@ class ProductDetails {
   final List<String> images;
 
   Product toProduct() => Product(
-        id: id,
-        name: name,
-        price: price,
-        image: images.first,
-      );
+    id: id,
+    name: name,
+    price: price,
+    image: images.first,
+  );
 
   factory ProductDetails.fromMap(Map<String, dynamic> map) {
     return ProductDetails(
       id: map['id'] as int,
       name: map['name'] as String,
-      price: map['price'] as double,
+      price: (map['price'] as num).toDouble(),
       description: map['description'] as String,
       material: map['material'] as String,
-      availableColors: map['available_colors'] as List<String>,
-      images: map['images'] as List<String>,
+      availableColors: List<String>.from(map['available_colors'] as List),
+      images: List<String>.from(map['images'] as List),
     );
   }
 
