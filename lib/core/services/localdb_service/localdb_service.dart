@@ -11,7 +11,7 @@ const String _dbFileName = 'userpref.db';
 
 class LocalDbService implements BaseLocalDbService {
 
-  final String _cartItemsTable = 'cart_items';
+  final String _cartItemsTable = 'cartitems';
   @override
   String get cartItemsTable => _cartItemsTable;
 
