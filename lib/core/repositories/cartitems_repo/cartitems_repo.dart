@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:sqflite/sqflite.dart';
+import 'package:rxdart/subjects.dart';
 
 import '/core/models/cart/cart_item.dart';
 import '/core/services/localdb_service/base_localdb_service.dart';
@@ -9,24 +9,35 @@ import 'base_cartitems_repo.dart';
 
 class CartItemsRepository implements BaseCartItemsRepository {
   final BaseLocalDbService _localDbService;
-  final StreamController<int> _cartItemCountController;
+  final BehaviorSubject<int> _cartItemCountController;
 
   CartItemsRepository({
     required BaseLocalDbService localDbService,
-    StreamController<int>? cartItemController,
+    BehaviorSubject<int>? cartItemController,
   })  : _localDbService = localDbService,
-        _cartItemCountController = cartItemController ?? StreamController();
+        _cartItemCountController = cartItemController ?? BehaviorSubject<int>();
 
   @override
-  StreamController<int> get cartItemCountController => _cartItemCountController;
+  BehaviorSubject<int> get cartItemCountController => _cartItemCountController;
 
   @override
-  Future<int> getCartItemCount() async {
+  Future<int> getCartItemsCount() async {
     final favCount = await _localDbService.select(
       table: _localDbService.cartItemsTable,
       columns: ['COUNT(*)'],
     );
     return Sqflite.firstIntValue(favCount) ?? 0;
+  }
+
+  @override
+  Future<int> getCartItemCount(int id) async {
+    final cartItemCount = await _localDbService.select(
+      table: _localDbService.cartItemsTable,
+      columns: ['amount'],
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return (cartItemCount.first['amount'] as int?) ?? 0;
   }
 
   @override
@@ -40,14 +51,14 @@ class CartItemsRepository implements BaseCartItemsRepository {
       table: _localDbService.cartItemsTable,
     );
 
-    return List<CartItem>.from(
-      cartItemList.map(
-        (cartItem) => CartItem.fromMap(
-          cartItem,
-          fromLocalDb: true,
-        ),
-      ),
-    );
+    return cartItemList
+        .map(
+          (cartItem) => CartItem.fromMap(
+            cartItem,
+            fromLocalDb: true,
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -58,7 +69,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    getCartItemCount().then(_cartItemCountController.add);
+    getCartItemsCount().then(_cartItemCountController.add);
   }
 
   @override
@@ -73,7 +84,22 @@ class CartItemsRepository implements BaseCartItemsRepository {
       },
       where: 'id = ?',
       whereArgs: [id],
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  @override
+  Future<void> deleteCartItems(List<int> ids) async {
+    await _localDbService.batch((batch) {
+      for (final int id in ids) {
+        batch.delete(
+          _localDbService.cartItemsTable,
+          where: 'id = ?',
+          whereArgs: [id],
+        );
+      }
+    });
+    getCartItemsCount().then(_cartItemCountController.add);
   }
 
   @override
@@ -84,7 +110,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
       whereArgs: [id],
     );
 
-    getCartItemCount().then(_cartItemCountController.add);
+    getCartItemsCount().then(_cartItemCountController.add);
   }
 
   @override
@@ -95,7 +121,6 @@ class CartItemsRepository implements BaseCartItemsRepository {
       whereArgs: [id],
       limit: 1,
     );
-
     if (findCartItem.isEmpty) return false;
     return true;
   }
