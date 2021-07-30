@@ -1,11 +1,12 @@
-import 'package:dekornata_app/core/helpers/random_generator_helper.dart';
 import 'package:flutter/foundation.dart' show listEquals;
 
 import 'package:intl/intl.dart';
 
+import '/core/helpers/random_generator_helper.dart';
+
 import 'cart_item.dart';
 
-final DateFormat _dateFormatter = DateFormat.yMd('id_ID');
+final DateFormat _dateFormatter = DateFormat('yyyyMMdd');
 
 class CheckoutItems {
   const CheckoutItems({
