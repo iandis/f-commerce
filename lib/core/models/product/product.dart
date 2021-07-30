@@ -26,7 +26,7 @@ class Product {
     return Product(
       id: map['id'] as int,
       name: map['name'] as String,
-      price: map['price'] as double,
+      price: (map['price'] as num).toDouble(),
       image: map['image'] as String,
     );
   }
