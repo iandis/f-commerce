@@ -1,10 +1,11 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
+
 import '/core/helpers/error_handler.dart';
 import '/core/models/cart/checkout_items.dart';
 import '/core/repositories/cartitems_repo/base_cartitems_repo.dart';
 import '/core/services/location_service/base_location_service.dart';
-import 'package:equatable/equatable.dart';
-import 'package:get_it/get_it.dart';
 
 part 'confirmation_state.dart';
 
