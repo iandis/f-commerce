@@ -1,16 +1,18 @@
-# dekornata_app
+# Dekornata Submission App
+This is a simple ecommerce app consisting of a few pages: Home, Product Detail, Cart Items, Confirmation, & Success Page.
+This app uses the latest Flutter (2.2.3) and Dart (2.13.4) version (as of July 31st 2021).
 
-A new Flutter project.
+## Tech stacks:
+- **flutter_bloc** for State Management
+- **get_it** for Dependency Injection
+- **http** for network requests
+- **retry** for defining Retry Policies on network requests
+- **rx_dart** for creating cached Broadcast Stream
+- **intl** for date & price formatting
+- **lint** for guiding Dart effective-style
+- uses Repository Pattern for data abstraction and Singleton pattern for helper classes
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Notes:
+The field "ndkVersion "22.1.7171670"" in the Android project build.gradle (app-level) 
+is needed for me to run the app properly on VSCode, so if anything goes wrong when trying 
+to run the project, you might need to edit it or remove it.
