@@ -2,7 +2,7 @@ part of '_cart_items_screen.dart';
 
 abstract class _CartItemsProps extends State<CartItemsScreen> {
   final _cartItemsCubit = CartItemsCubit();
-  final _selectedCartItems = ValueNotifier<Set<int>>({});
+  final _selectedCartItems = ValueNotifier<Set<CartItem>>({});
 
   @override
   void initState() {
@@ -17,23 +17,27 @@ abstract class _CartItemsProps extends State<CartItemsScreen> {
     super.dispose();
   }
 
-  void _selectCartItem(int index) {
+  void _selectCartItem(CartItem item) {
     final newSelectedCartItems = _selectedCartItems.value.toSet();
-    if (_selectedCartItems.value.contains(index)) {
-      newSelectedCartItems.remove(index);
+    if (_selectedCartItems.value.contains(item)) {
+      newSelectedCartItems.remove(item);
       _selectedCartItems.value = newSelectedCartItems;
     } else {
-      newSelectedCartItems.add(index);
+      newSelectedCartItems.add(item);
       _selectedCartItems.value = newSelectedCartItems;
     }
   }
 
+  void _removeCartItem(CartItem item) {
+    final newSelectedCartItems = _selectedCartItems.value.toSet();
+    newSelectedCartItems.remove(item);
+    _selectedCartItems.value = newSelectedCartItems;
+    _cartItemsCubit.removeItem(item);
+  }
+
   void _gotoConfirmationPage() {
     if (_cartItemsCubit.state is! CartItemsLoaded) return;
-    final currentState = _cartItemsCubit.state as CartItemsLoaded;
-    final selectedCartItems = _selectedCartItems.value.map<CartItem>((index) {
-      return currentState.cartItems[index];
-    }).toList();
+    final selectedCartItems = _selectedCartItems.value.toList();
     final checkoutItems = CheckoutItems.withRandomInvoiceId(
       cartItems: selectedCartItems,
       destination: '--',
