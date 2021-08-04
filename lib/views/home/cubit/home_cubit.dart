@@ -23,6 +23,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadProducts({bool more = false}) async {
     if(state.status == HomeStatus.loading || state.status == HomeStatus.loadingMore) return;
+    if(state.isAtEndOfPage) return;
+    
     emit(more ? state.loadingMore() : state.loading());
 
     try {

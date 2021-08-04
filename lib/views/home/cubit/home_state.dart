@@ -21,6 +21,8 @@ class HomeState extends Equatable {
   final List<Product> products;
   final String? errorMessage;
 
+  bool get isAtEndOfPage => currentPage == 99;
+
   factory HomeState.init() {
     return const HomeState(
       currentPage: 0,
