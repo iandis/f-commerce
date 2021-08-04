@@ -12,41 +12,28 @@ import '/views/success/success_screen.dart';
 
 class ScreenRouter {
   static Route onGenerateRoute(RouteSettings settings) {
+    
+    final String? destinationRouteName = settings.name;
+    final Object? arguments = settings.arguments;
+
     return PageRouteBuilder(
       pageBuilder: (_, __, ___) {
-        switch (settings.name) {
-          case AppRoutes.home:
-            return const HomeScreen();
-          case AppRoutes.details:
-            final Object? product = settings.arguments;
-            if(product is Product) {
-              return ProductDetailsScreen(product: product);
-            }
-            throw ArgumentError(product);
-          case AppRoutes.cart:
-            return const CartItemsScreen();
-          case AppRoutes.confirmation:
-            final Object? checkoutItems = settings.arguments;
-            if(checkoutItems is CheckoutItems) {
-              return ConfirmationScreen(checkoutItems: checkoutItems);
-            }
-            throw ArgumentError(checkoutItems);
-          case AppRoutes.success:
-            final Object? confirmedCheckoutItems = settings.arguments;
-            if(confirmedCheckoutItems is CheckoutItems) {
-              return SuccessScreen(checkoutItems: confirmedCheckoutItems);
-            }
-            throw ArgumentError(confirmedCheckoutItems);
-          default:
-            return const Center(
-              child: Text(
-                "Oops.. The page you're looking for does not exist.",
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
-            );
+        if (destinationRouteName == AppRoutes.home) {
+          return const HomeScreen();
         }
+        if (destinationRouteName == AppRoutes.details && arguments is Product) {
+          return ProductDetailsScreen(product: arguments);
+        }
+        if (destinationRouteName == AppRoutes.cart) {
+          return const CartItemsScreen();
+        }
+        if (destinationRouteName == AppRoutes.confirmation && arguments is CheckoutItems) {
+          return ConfirmationScreen(checkoutItems: arguments);
+        }
+        if (destinationRouteName == AppRoutes.success && arguments is CheckoutItems) {
+          return SuccessScreen(checkoutItems: arguments);
+        }
+        throw ArgumentError('Unknown arguments of [$arguments] on route [$destinationRouteName]');
       },
       transitionsBuilder: (context, animation, __, child) {
         const begin = 0.0;
@@ -70,4 +57,3 @@ class ScreenRouter {
     );
   }
 }
-
