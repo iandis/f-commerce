@@ -13,21 +13,7 @@ abstract class _HomeScreenProps extends State<HomeScreen> {
         .getCartItemsCount()
         .then(_homeCubit.cartItemsRepo.cartItemCountController.add);
 
-    _productsScrollController.addListener(() {
-      final currentOffset = _productsScrollController.offset;
-      final almostBottom = _productsScrollController.position.maxScrollExtent - 90;
-      final isScrollingDown = _productsScrollController.position.userScrollDirection == ScrollDirection.reverse;
-      final isNotLoadingMore = _homeCubit.state.status != HomeStatus.loadingMore;
-      final isNotLoading = _homeCubit.state.status != HomeStatus.loading;
-
-      if (currentOffset >= almostBottom &&
-          isScrollingDown &&
-          isNotLoading &&
-          isNotLoadingMore) {
-        _homeCubit.loadProducts(more: true);
-      }
-    });
-
+    _productsScrollController.addListener(_loadMoreProducts);
     _homeCubit.loadProducts();
   }
 
@@ -36,6 +22,16 @@ abstract class _HomeScreenProps extends State<HomeScreen> {
     _homeCubit.close();
     _productsScrollController.dispose();
     super.dispose();
+  }
+
+  void _loadMoreProducts() {
+    if (_productsScrollController.offset >= _productsScrollController.position.maxScrollExtent - 90 &&
+        _productsScrollController.position.userScrollDirection == ScrollDirection.reverse &&
+        _homeCubit.state.status != HomeStatus.loading &&
+        _homeCubit.state.status != HomeStatus.loadingMore &&
+        !_homeCubit.state.isAtEndOfPage) {
+      _homeCubit.loadProducts(more: true);
+    }
   }
 
   bool _scrollToTop() {

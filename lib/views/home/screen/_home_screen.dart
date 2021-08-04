@@ -59,19 +59,28 @@ class _HomeScreenState extends _HomeScreenProps with _HomeScreenWidgets {
                 controller: _productsScrollController,
                 slivers: [
                   SliverPadding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(20),
                     sliver: mainGrid,
                   ),
-                  if(state.status == HomeStatus.loadingMore)
+                  if (state.status == HomeStatus.loadingMore)
                     const SliverPadding(
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
                       sliver: ProductsLoadingIndicator(),
                     ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(
-                      height: 20,
-                    ),
-                  ),
+                  if (state.isAtEndOfPage)
+                    SliverToBoxAdapter(
+                      child: Container(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        height: 20,
+                        child: const Text(
+                          'No more products',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
+                    )
+                  else
+                    const SliverToBoxAdapter(child: SizedBox(height: 20)),
                 ],
               );
             },
