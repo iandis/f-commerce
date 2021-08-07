@@ -13,10 +13,10 @@ mixin _CartItemsWidgets on _CartItemsProps {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
-                child: VLB<Set<CartItem>>(
+                child: VLB<Set<int>>(
                   valueListenable: _selectedCartItems,
                   builder: (_, selectedItems, __) => Checkbox(
-                    value: selectedItems.contains(currentItem),
+                    value: selectedItems.contains(currentItem.id),
                     onChanged: (_) => _selectCartItem(currentItem),
                   ),
                 ),
@@ -64,10 +64,10 @@ mixin _CartItemsWidgets on _CartItemsProps {
   }
 
   Widget totalPriceCell(CartItemsLoaded state) {
-    return ValueListenableBuilder<Set<CartItem>>(
+    return VLB<Set<int>>(
       valueListenable: _selectedCartItems,
       builder: (_, selectedItems, __) {
-        final totalPrice = selectedItems.fold<double>(
+        final totalPrice = state.cartItems.where((c) => selectedItems.contains(c.id)).fold<double>(
           0,
           (total, item) {
             return total += item.totalPrice;
