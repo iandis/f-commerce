@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:get_it/get_it.dart';
+
 import '/core/constants/app_apis.dart';
 import '/core/helpers/error_handler.dart';
 import '/core/models/product/product.dart';
@@ -10,11 +12,12 @@ import '/core/services/http_service/base_http_service.dart';
 import 'base_products_repo.dart';
 
 class ProductsRepository implements BaseProductsRepository {
-  final BaseHttpService _httpService;
 
-  const ProductsRepository({
-    required BaseHttpService httpService,
-  }) : _httpService = httpService;
+  ProductsRepository({
+    BaseHttpService? httpService,
+  }) : _httpService = httpService ?? GetIt.I<BaseHttpService>();
+
+  final BaseHttpService _httpService;
 
   Map<String, String> get _defaultHeader => const {
     HttpHeaders.contentTypeHeader: 'application/json',
