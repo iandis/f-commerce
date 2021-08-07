@@ -1,4 +1,4 @@
-import 'dart:async' show Completer, FutureOr;
+import 'dart:async' show Completer;
 import 'dart:developer' as dev show log;
 
 import 'package:flutter/foundation.dart' show kDebugMode;
@@ -15,7 +15,11 @@ class LocalDbService implements BaseLocalDbService {
   @override
   String get cartItemsTable => _cartItemsTable;
 
-  late final String _createCartItemsTable = 'CREATE TABLE $_cartItemsTable(id INTEGER PRIMARY KEY, amount INTEGER, product TEXT)';
+  late final String _createCartItemsTable = 
+    'CREATE TABLE $_cartItemsTable '
+    '(id INTEGER PRIMARY KEY, '
+    'amount INTEGER, '
+    'product TEXT)';
 
   late final List<String> _createAllTables = [
     _createCartItemsTable,
@@ -27,11 +31,13 @@ class LocalDbService implements BaseLocalDbService {
 
   final _database = Completer<Database>();
 
-  @override
-  FutureOr<bool> initDb([Database? database]) async {
+  LocalDbService({Database? database}) {
+    _initDb(database: database);
+  }
+
+  Future<void> _initDb({Database? database}) async {
     if (database != null) {
       _database.complete(database);
-      return true;
     }
     try {
       final dbPath = path.join(await getDatabasesPath(), _dbFileName);
@@ -44,7 +50,6 @@ class LocalDbService implements BaseLocalDbService {
       if (kDebugMode) {
         dev.log('Database initialized!');
       }
-      return true;
     } catch (e, st) {
       if (kDebugMode) {
         dev.log(
@@ -53,7 +58,6 @@ class LocalDbService implements BaseLocalDbService {
         );
       }
     }
-    return false;
   }
 
   Future<void> _createTables(Database db, int version) async {

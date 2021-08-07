@@ -7,7 +7,6 @@ abstract class BaseLocalDbService {
 
   String get cartItemsTable;
 
-  FutureOr<bool> initDb([Database? database]);
   Future<void> clearDb();
   Future<void> closeDb();
 
