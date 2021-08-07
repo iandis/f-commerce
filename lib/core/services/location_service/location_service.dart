@@ -1,20 +1,25 @@
-
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:location/location.dart' as loc;
 
 import 'base_location_service.dart';
 
 class LocationService implements BaseLocationService {
-  LocationService({loc.Location? location}) : _location = location ?? loc.Location();
+
+  LocationService({
+    loc.Location? location,
+    geocoding.GeocodingPlatform? geocodingPlatform,
+  }) :  _location = location ?? loc.Location(),
+        _geocodingPlatform = geocodingPlatform ?? geocoding.GeocodingPlatform.instance;
 
   final loc.Location _location;
+  final geocoding.GeocodingPlatform _geocodingPlatform;
 
   @override
   Future<String> getAddressFromCoordinates({
     required double latitude,
     required double longitude,
   }) async {
-    final placemarks = await geocoding.placemarkFromCoordinates(latitude, longitude);
+    final placemarks = await _geocodingPlatform.placemarkFromCoordinates(latitude, longitude);
     return 
       '${placemarks.first.street ?? '-'}, ' // nama jalan
       '${placemarks.first.subLocality ?? '-'}, ' // kelurahan
