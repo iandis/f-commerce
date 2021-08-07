@@ -9,8 +9,6 @@ typedef PageBuilderFunction = Widget Function(
 
 abstract class BaseScreenMessenger {
 
-  const BaseScreenMessenger();
-
   /// a shortcut for showing dialog that can have blur effect
   /// 
   /// [blurFactor] defaults to `null` which means no blur

@@ -6,8 +6,6 @@ import 'base_screen_messenger.dart';
 
 class ScreenMessenger implements BaseScreenMessenger {
 
-  const ScreenMessenger();
-
   @override
   Future<T?> showDialog<T extends Object?>({
     required BuildContext context,
