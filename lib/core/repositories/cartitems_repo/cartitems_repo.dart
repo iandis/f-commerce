@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -8,17 +9,17 @@ import '/core/services/localdb_service/base_localdb_service.dart';
 import 'base_cartitems_repo.dart';
 
 class CartItemsRepository implements BaseCartItemsRepository {
-  final BaseLocalDbService _localDbService;
-  final BehaviorSubject<int> _cartItemCountController;
 
   CartItemsRepository({
-    required BaseLocalDbService localDbService,
+    BaseLocalDbService? localDbService,
     BehaviorSubject<int>? cartItemController,
-  })  : _localDbService = localDbService,
-        _cartItemCountController = cartItemController ?? BehaviorSubject<int>();
+  })  : _localDbService = localDbService ?? GetIt.I<BaseLocalDbService>(),
+        cartItemCountController = cartItemController ?? BehaviorSubject<int>();
 
   @override
-  BehaviorSubject<int> get cartItemCountController => _cartItemCountController;
+  final BehaviorSubject<int> cartItemCountController;
+
+  final BaseLocalDbService _localDbService;
 
   @override
   Future<int> getCartItemsCount() async {
@@ -42,7 +43,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
 
   @override
   Future<void> close() async {
-    await _cartItemCountController.sink.close();
+    await cartItemCountController.sink.close();
   }
 
   @override
@@ -69,7 +70,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
 
-    getCartItemsCount().then(_cartItemCountController.add);
+    getCartItemsCount().then(cartItemCountController.add);
   }
 
   @override
@@ -99,7 +100,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
         );
       }
     });
-    getCartItemsCount().then(_cartItemCountController.add);
+    getCartItemsCount().then(cartItemCountController.add);
   }
 
   @override
@@ -110,7 +111,7 @@ class CartItemsRepository implements BaseCartItemsRepository {
       whereArgs: [id],
     );
 
-    getCartItemsCount().then(_cartItemCountController.add);
+    getCartItemsCount().then(cartItemCountController.add);
   }
 
   @override
