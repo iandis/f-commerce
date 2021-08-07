@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:intl/date_symbol_data_local.dart' as intl show initializeDateFormatting;
 import 'package:intl/intl.dart' as intl show Intl;
 
 import 'core/constants/app_routes.dart';
 import 'core/constants/app_theme.dart';
 import 'core/helpers/screen_router.dart';
-import 'core/services/navigation_service/base_navigation_service.dart';
 import 'singletons.dart';
 
 void main() {
@@ -32,8 +30,6 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Dekornata',
       debugShowCheckedModeBanner: false,
-      navigatorKey: GetIt.I<BaseNavigationService>().navigatorKey,
-      scaffoldMessengerKey: GetIt.I<BaseNavigationService>().messengerKey,
       theme: ThemeData(
         accentColor: AppTheme.accentColor,
         primaryColor: AppTheme.primaryColor,
