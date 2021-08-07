@@ -1,6 +1,4 @@
 
-import 'dart:async' show FutureOr;
-
 import 'package:sqflite/sqflite.dart';
 
 abstract class BaseLocalDbService {
