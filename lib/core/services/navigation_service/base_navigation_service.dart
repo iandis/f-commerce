@@ -7,6 +7,7 @@ typedef PageBuilderFunction = Widget Function(
   Animation<double> a2,
 );
 
+@Deprecated('Bad design. Use [BaseScreenMessenger] instead')
 abstract class BaseNavigationService {
   /// the navigator key responsible for navigating between screens
   GlobalKey<NavigatorState> get navigatorKey;
