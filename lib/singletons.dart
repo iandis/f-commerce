@@ -10,23 +10,15 @@ import 'core/services/localdb_service/base_localdb_service.dart';
 import 'core/services/localdb_service/localdb_service.dart';
 import 'core/services/location_service/base_location_service.dart';
 import 'core/services/location_service/location_service.dart';
-import 'core/services/navigation_service/base_navigation_service.dart';
-import 'core/services/navigation_service/navigation_service.dart';
+import 'core/services/screen_messenger/base_screen_messenger.dart';
+import 'core/services/screen_messenger/screen_messenger.dart';
 
 void initSingletons() {
   GetIt.I.registerSingleton<BaseHttpService>(HttpService());
-  GetIt.I.registerSingleton<BaseLocalDbService>(LocalDbService()..initDb());
-  GetIt.I.registerSingleton<BaseNavigationService>(NavigationService());
-  GetIt.I.registerSingleton<BaseProductsRepository>(
-    ProductsRepository(
-      httpService: GetIt.I<BaseHttpService>(),
-    ),
-  );
-  GetIt.I.registerSingleton<BaseCartItemsRepository>(
-    CartItemsRepository(
-      localDbService: GetIt.I<BaseLocalDbService>(),
-    ),
-  );
+  GetIt.I.registerSingleton<BaseLocalDbService>(LocalDbService());
+  GetIt.I.registerSingleton<BaseProductsRepository>(ProductsRepository());
+  GetIt.I.registerSingleton<BaseCartItemsRepository>(CartItemsRepository());
 
   GetIt.I.registerLazySingleton<BaseLocationService>(() => LocationService());
+  GetIt.I.registerLazySingleton<BaseScreenMessenger>(() => ScreenMessenger());
 }
