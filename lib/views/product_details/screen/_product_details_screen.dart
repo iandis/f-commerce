@@ -7,7 +7,7 @@ import 'package:get_it/get_it.dart';
 import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/product/product.dart';
-import '/core/services/navigation_service/base_navigation_service.dart';
+import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/carousel_indicator/horizontal_dot_indicator.dart';
 import '/views/_widgets/color_tag_card.dart';
 import '/views/_widgets/product_details_loading/product_details_loading_indicator.dart';
@@ -38,7 +38,8 @@ class _ProductDetailsScreenState extends _ProductDetailsProps with _ProductDetai
         bloc: _productDetailsCubit,
         listener: (_, state) {
           if (state is ProductDetailsError) {
-            GetIt.I<BaseNavigationService>().showSnackBar(
+            GetIt.I<BaseScreenMessenger>().showSnackBar(
+              context: context,
               backgroundColor: AppTheme.primaryColor,
               message: state.errorMessage,
             );

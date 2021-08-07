@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
-import '/core/services/navigation_service/base_navigation_service.dart';
+import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/product_card/product_card.dart';
 import '/views/_widgets/product_card/product_card_loading.dart';
 import '/views/home/cubit/home_cubit.dart';
@@ -41,7 +41,8 @@ class _HomeScreenState extends _HomeScreenProps with _HomeScreenWidgets {
             bloc: _homeCubit,
             listener: (_, state) {
               if (state.status == HomeStatus.error) {
-                _navigationService.showSnackBar(
+                GetIt.I<BaseScreenMessenger>().showSnackBar(
+                  context: context,
                   message: state.errorMessage,
                 );
               }

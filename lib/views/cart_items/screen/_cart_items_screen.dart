@@ -7,7 +7,7 @@ import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/cart_item.dart';
 import '/core/models/cart/checkout_items.dart';
-import '/core/services/navigation_service/base_navigation_service.dart';
+import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/cart_item_tile.dart';
 import '/views/cart_items/cubit/cartitems_cubit.dart';
 
@@ -52,7 +52,8 @@ class _CartItemsScreenState extends _CartItemsProps with _CartItemsWidgets {
         bloc: _cartItemsCubit,
         listener: (_, state) {
           if (state is CartItemsError) {
-            GetIt.I<BaseNavigationService>().showSnackBar(
+            GetIt.I<BaseScreenMessenger>().showSnackBar(
+              context: context,
               message: state.errorMessage,
               backgroundColor: AppTheme.primaryColor,
             );

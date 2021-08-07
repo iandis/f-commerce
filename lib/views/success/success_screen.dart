@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
 import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/checkout_items.dart';
-import '/core/services/navigation_service/base_navigation_service.dart';
 import '/views/_widgets/cart_item_tile.dart';
 
 class SuccessScreen extends StatefulWidget {
@@ -24,7 +22,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        GetIt.I<BaseNavigationService>().backUntilNamed(AppRoutes.home);
+        Navigator.of(context).popUntil(ModalRoute.withName(AppRoutes.home));
         return false;
       },
       child: Scaffold(

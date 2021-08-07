@@ -16,11 +16,16 @@ abstract class _ConfirmationProps extends State<ConfirmationScreen> {
   }
 
   void cannotConfirmCheckout(String reason) {
-    GetIt.I<BaseNavigationService>().showSnackBar(message: reason, backgroundColor: AppTheme.primaryColor,);
+    GetIt.I<BaseScreenMessenger>().showSnackBar(
+      context: context,
+      message: reason,
+      backgroundColor: AppTheme.primaryColor,
+    );
   }
 
   void confirmCheckout() {
-    GetIt.I<BaseNavigationService>().showDialogWithBlur(
+    GetIt.I<BaseScreenMessenger>().showDialog(
+      context: context,
       blurFactor: 4,
       barrierDismissible: false,
       barrierLabel: '',

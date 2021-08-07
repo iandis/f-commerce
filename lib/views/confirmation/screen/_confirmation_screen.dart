@@ -8,7 +8,7 @@ import '/core/constants/app_routes.dart';
 import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/checkout_items.dart';
-import '/core/services/navigation_service/base_navigation_service.dart';
+import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/cart_item_tile.dart';
 import '/views/confirmation/cubit/confirmation_cubit.dart';
 
@@ -39,13 +39,14 @@ class _ConfirmationScreenState extends _ConfirmationProps with _ConfirmationWidg
         bloc: _confirmationCubit,
         listener: (_, state) {
           if (state is ConfirmationError) {
-            GetIt.I<BaseNavigationService>().showSnackBar(
+            GetIt.I<BaseScreenMessenger>().showSnackBar(
+              context: context,
               message: state.errorMessage,
               backgroundColor: AppTheme.primaryColor,
               floating: true,
             );
           } else if (state is ConfirmedCheckoutItems) {
-            GetIt.I<BaseNavigationService>().offToName(
+            Navigator.of(context).pushReplacementNamed(
               AppRoutes.success,
               arguments: state.confirmedCheckoutItems,
             );

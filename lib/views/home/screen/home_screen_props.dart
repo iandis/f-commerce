@@ -3,7 +3,6 @@ part of '_home_screen.dart';
 abstract class _HomeScreenProps extends State<HomeScreen> {
   final _homeCubit = HomeCubit();
   final _productsScrollController = ScrollController();
-  final _navigationService = GetIt.I<BaseNavigationService>();
 
   @override
   void initState() {
