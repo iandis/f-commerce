@@ -1,3 +1,4 @@
+import 'package:fcommerce/views/_widgets/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
 import '/core/services/screen_messenger/base_screen_messenger.dart';
+import '/views/_widgets/cart_count_icon.dart';
 import '/views/_widgets/product_card/product_card.dart';
 import '/views/_widgets/product_card/product_card_loading.dart';
 import '/views/home/cubit/home_cubit.dart';
@@ -28,19 +30,19 @@ class _HomeScreenState extends _HomeScreenProps with _HomeScreenWidgets {
         appBar: AppBar(
           title: const Text('f-commerce'),
           actions: [
-            cartCountIcon,
+            CartCountIcon(
+              onTap: _gotoCartItemsPage,
+              cartCountStream: _homeCubit.cartItemsRepo.cartItemCountController.stream,
+            ),
           ],
-          brightness: Brightness.dark,
           centerTitle: true,
-          elevation: 10.0,
-          shadowColor: Colors.white24,
         ),
         body: RefreshIndicator(
           onRefresh: _homeCubit.loadProducts,
           child: BlocConsumer<HomeCubit, HomeState>(
             bloc: _homeCubit,
             listener: (_, state) {
-              if (state.status == HomeStatus.error) {
+              if (state.status == HomeStatus.error && state.products.isNotEmpty) {
                 GetIt.I<BaseScreenMessenger>().showSnackBar(
                   context: context,
                   message: state.errorMessage,
@@ -48,19 +50,28 @@ class _HomeScreenState extends _HomeScreenProps with _HomeScreenWidgets {
               }
             },
             builder: (_, state) {
+              if (state.status == HomeStatus.error && state.products.isEmpty) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: ErrorScreen(
+                      errorMessage: state.errorMessage!,
+                      onRetry: _homeCubit.loadProducts,
+                    ),
+                  ),
+                );
+              }
               final Widget mainGrid;
-              switch (state.status) {
-                case HomeStatus.loading:
-                  mainGrid = const ProductsLoadingIndicator(itemCount: 10);
-                  break;
-                default:
-                  mainGrid = productsGrid;
+              if (state.status == HomeStatus.loading) {
+                mainGrid = const ProductsLoadingIndicator(itemCount: 10);
+              } else {
+                mainGrid = productsGrid;
               }
               return CustomScrollView(
                 controller: _productsScrollController,
                 slivers: [
                   SliverPadding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                     sliver: mainGrid,
                   ),
                   if (state.status == HomeStatus.loadingMore)
