@@ -19,7 +19,6 @@ abstract class _ConfirmationProps extends State<ConfirmationScreen> {
     GetIt.I<BaseScreenMessenger>().showSnackBar(
       context: context,
       message: reason,
-      backgroundColor: AppTheme.primaryColor,
     );
   }
 
