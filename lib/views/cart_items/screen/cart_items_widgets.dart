@@ -47,14 +47,12 @@ mixin _CartItemsWidgets on _CartItemsProps {
         children: const [
           Icon(
             Icons.shopping_bag_outlined,
-            color: AppTheme.accentColor,
             size: 60,
           ),
           SizedBox(height: 10),
           Text(
             "Oops... You haven't added any item yet :(",
             style: TextStyle(
-              color: AppTheme.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),

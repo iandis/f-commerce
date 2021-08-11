@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
-import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/cart_item.dart';
 import '/core/models/cart/checkout_items.dart';
@@ -42,10 +41,8 @@ class _CartItemsScreenState extends _CartItemsProps with _CartItemsWidgets {
       appBar: AppBar(
         title: const Text('Cart'),
         automaticallyImplyLeading: widget.withBackButton,
-        brightness: Brightness.dark,
         shape: widget.appBarShapeBorder,
         centerTitle: widget.centerTitle,
-        elevation: 0,
       ),
       backgroundColor: widget.scaffoldBackgroundColor,
       body: BlocConsumer<CartItemsCubit, CartItemsState>(
@@ -55,7 +52,6 @@ class _CartItemsScreenState extends _CartItemsProps with _CartItemsWidgets {
             GetIt.I<BaseScreenMessenger>().showSnackBar(
               context: context,
               message: state.errorMessage,
-              backgroundColor: AppTheme.primaryColor,
             );
           }
         },
