@@ -5,13 +5,13 @@ import '/core/helpers/formatters.dart';
 import '/core/models/cart/cart_item.dart';
 import '/views/_widgets/number_spinner.dart';
 
-/// if [onIncrement] or [onDecrement] is null,
-/// instead of showing [NumberSpinner] this will
-/// show total price instead.
-///
-/// and if [onRemove] is null,
-/// this will show item amount instead.
 class CartItemTile extends StatelessWidget {
+  /// if [onIncrement] or [onDecrement] is null,
+  /// instead of showing [NumberSpinner] this will
+  /// show total price instead.
+  ///
+  /// and if [onRemove] is null,
+  /// this will show item amount instead.
   const CartItemTile({
     Key? key,
     required this.cartItem,
@@ -34,7 +34,7 @@ class CartItemTile extends StatelessWidget {
       leading: itemImage,
       title: itemName,
       subtitle: itemCountCell,
-      trailing: itemTrailing,
+      trailing: itemTrailing(context),
     );
   }
 
@@ -88,7 +88,7 @@ class CartItemTile extends StatelessWidget {
     return boxChild;
   }
 
-  Widget get itemTrailing {
+  Widget itemTrailing(BuildContext context) {
     if (onRemove != null) {
       return IconButton(
         onPressed: onRemove,
@@ -104,8 +104,14 @@ class CartItemTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
+        color: Theme.of(context).accentColor,
       ),
-      child: Text('${cartItem.amount}'),
+      child: Text(
+        '${cartItem.amount}',
+        style: const TextStyle(
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
