@@ -95,11 +95,13 @@ mixin _ConfirmationWidgets on _ConfirmationProps {
       trailing: BlocBuilder<ConfirmationCubit, ConfirmationState>(
         bloc: _confirmationCubit,
         builder: (_, state) {
-          final VoidCallback onPressed;
+          final VoidCallback? onPressed;
           if (state is ConfirmationError) {
             onPressed = () => cannotConfirmCheckout(state.errorMessage);
           } else if (state is AddressLoading) {
             onPressed = () => cannotConfirmCheckout('Please wait until your address is loaded');
+          } else if (state is ConfirmedCheckoutItems) {
+            onPressed = null;
           } else {
             onPressed = confirmCheckout;
           }

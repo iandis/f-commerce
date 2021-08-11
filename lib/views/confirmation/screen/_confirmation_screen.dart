@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +43,9 @@ class _ConfirmationScreenState extends _ConfirmationProps with _ConfirmationWidg
               floating: true,
             );
           } else if (state is ConfirmedCheckoutItems) {
-            Navigator.of(context).pushReplacementNamed(
+            // must pop loading indicator dialog from route stack first,
+            // to prevent janking.
+            Navigator.of(context).popAndPushNamed(
               AppRoutes.success,
               arguments: state.confirmedCheckoutItems,
             );
