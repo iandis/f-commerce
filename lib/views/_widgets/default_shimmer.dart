@@ -12,7 +12,8 @@ class DefaultShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: const Color(0xFFE0E0E0), // Colors.grey[300]
+      period: const Duration(milliseconds: 1000),
+      baseColor: const Color(0xFFEEEEEE), // Colors.grey[200]
       highlightColor: const Color(0xFFF5F5F5), // Colors.grey[100]
       child: child,
     );
