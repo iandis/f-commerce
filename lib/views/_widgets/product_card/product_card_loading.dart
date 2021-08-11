@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import '/views/_widgets/default_shimmer.dart';
 
-late final _cardShadowColor = Colors.grey[50]?.withOpacity(0.3);
-
-final _cardShape = RoundedRectangleBorder(
-  borderRadius: BorderRadius.circular(10),
+final _cardShape = BoxDecoration(
+  borderRadius: BorderRadius.circular(15),
 );
 
 final _shimmeringItemDetailDecoration = BoxDecoration(
@@ -47,14 +45,9 @@ class ProductsLoadingIndicator extends StatelessWidget {
   }
 
   Widget _card(double halfScreenWidth, double quarterScreenWidth) {
-    return Card(
-      margin: EdgeInsets.zero,
-      borderOnForeground: false,
-      elevation: 4.0,
-      color: Colors.grey[50],
+    return Container(
       clipBehavior: Clip.hardEdge,
-      shadowColor: _cardShadowColor,
-      shape: _cardShape,
+      decoration: _cardShape,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -62,22 +55,25 @@ class ProductsLoadingIndicator extends StatelessWidget {
             flex: 10,
             child: DefaultShimmer(
               child: Container(
-                color: Colors.grey[200],
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.grey[200],
+                ),
               ),
             ),
           ),
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+              padding: const EdgeInsets.all(10),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DefaultShimmer(
                     child: Container(
                       width: quarterScreenWidth * 1.5,
-                      height: 15,
+                      height: 13,
                       margin: const EdgeInsets.only(bottom: 5),
                       decoration: _shimmeringItemDetailDecoration,
                     ),
@@ -85,15 +81,16 @@ class ProductsLoadingIndicator extends StatelessWidget {
                   DefaultShimmer(
                     child: Container(
                       width: quarterScreenWidth * 0.85,
-                      height: 15,
+                      height: 13,
                       margin: const EdgeInsets.only(bottom: 5),
                       decoration: _shimmeringItemDetailDecoration,
                     ),
                   ),
+                  const Spacer(),
                   DefaultShimmer(
                     child: Container(
                       width: quarterScreenWidth,
-                      height: 15,
+                      height: 13,
                       decoration: _shimmeringItemDetailDecoration,
                     ),
                   ),
