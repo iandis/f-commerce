@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
-import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/product/product.dart';
 import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/carousel_indicator/horizontal_dot_indicator.dart';
+import '/views/_widgets/cart_count_icon.dart';
 import '/views/_widgets/color_tag_card.dart';
+import '/views/_widgets/default_shimmer.dart';
 import '/views/_widgets/product_details_loading/product_details_loading_indicator.dart';
 import '/views/cart_items/screen/_cart_items_screen.dart';
 import '/views/product_details/cubit/product_details_cubit.dart';
@@ -40,9 +41,9 @@ class _ProductDetailsScreenState extends _ProductDetailsProps with _ProductDetai
           if (state is ProductDetailsError) {
             GetIt.I<BaseScreenMessenger>().showSnackBar(
               context: context,
-              backgroundColor: AppTheme.primaryColor,
               message: state.errorMessage,
             );
+            Navigator.of(context).popUntil((route) => route.isFirst);
           }
         },
         builder: (_, state) {

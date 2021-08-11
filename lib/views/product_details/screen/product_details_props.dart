@@ -3,13 +3,7 @@ part of '_product_details_screen.dart';
 abstract class _ProductDetailsProps extends State<ProductDetailsScreen> {
   final _productDetailsCubit = ProductDetailsCubit();
   final _imageSliderController = PageController();
-  late final _dotIndicator = HorizontalDotIndicator(
-    dotCount: 3,
-    dotSize: 15.0,
-    activeDotColor: AppTheme.accentColor,
-    inactiveDotColor: AppTheme.primaryColor,
-    dotSpacing: 10.0,
-  );
+  HorizontalDotIndicator? _dotIndicator;
 
   @override
   void initState() {
@@ -18,9 +12,21 @@ abstract class _ProductDetailsProps extends State<ProductDetailsScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _dotIndicator ??= HorizontalDotIndicator(
+        dotCount: 3,
+        dotSize: 10.0,
+        activeDotColor: Theme.of(context).primaryColor,
+        inactiveDotColor: Theme.of(context).primaryColor.withOpacity(0.3),
+        dotSpacing: 5.0,
+      );
+  }
+
+  @override
   void dispose() {
     _productDetailsCubit.close();
-    _dotIndicator.dispose();
+    _dotIndicator?.dispose();
     _imageSliderController.dispose();
     super.dispose();
   }

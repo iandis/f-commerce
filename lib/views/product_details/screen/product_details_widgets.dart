@@ -2,6 +2,8 @@ part of '_product_details_screen.dart';
 
 mixin _ProductDetailsWidgets on _ProductDetailsProps {
   Widget productDetails(ProductDetailsLoaded state) {
+    final expandedHeight = MediaQuery.of(context).size.height * 0.67;
+
     final productImages = state.productDetails.images.map((image) {
       return Container(
         color: Colors.grey[200],
@@ -9,10 +11,10 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
           imageUrl: image,
           fit: BoxFit.cover,
           placeholder: (_, __) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: AppTheme.accentColor,
-                backgroundColor: AppTheme.primaryColor,
+            return DefaultShimmer(
+              child: Container(
+                color: Colors.white,
+                height: expandedHeight,
               ),
             );
           },
@@ -20,15 +22,12 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
       );
     }).toList(growable: false);
 
-    final expandedHeight = MediaQuery.of(context).size.height * 0.67;
-
     final imageSlider = Stack(
       alignment: Alignment.bottomCenter,
       children: [
         PageView(
           controller: _imageSliderController,
-          physics: const BouncingScrollPhysics(),
-          onPageChanged: _dotIndicator.moveDot,
+          onPageChanged: _dotIndicator?.moveDot,
           children: productImages,
         ),
         Padding(
@@ -40,7 +39,10 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
 
     final parallaxAppBar = SliverAppBar(
       actions: [
-        cartCountIcon,
+        CartCountIcon(
+          onTap: showCartItems,
+          cartCountStream: _productDetailsCubit.cartItemsRepo.cartItemCountController.stream,
+        ),
       ],
       expandedHeight: expandedHeight,
       flexibleSpace: FlexibleSpaceBar(
@@ -80,7 +82,6 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
     final productPrice = Text(
       Formatters.formatPrice(state.productDetails.price),
       style: const TextStyle(
-        color: Colors.amber,
         fontSize: 20,
         fontWeight: FontWeight.w500,
       ),
@@ -175,59 +176,6 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
         availableColorTagCards,
         productDescription,
       ],
-    );
-  }
-
-  Widget get cartCountIcon {
-    final circleBadgeDecoration = BoxDecoration(
-      color: Colors.blue,
-      borderRadius: BorderRadius.circular(8),
-    );
-
-    final countBadge = StreamBuilder<int>(
-      initialData: 0,
-      stream: _productDetailsCubit.cartItemsRepo.cartItemCountController.stream,
-      builder: (_, countSnapshot) {
-        final countText = Text(
-          countSnapshot.data.toString(),
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 8,
-            fontWeight: FontWeight.bold,
-          ),
-        );
-
-        return Positioned(
-          right: 0,
-          bottom: 0,
-          child: Container(
-            padding: const EdgeInsets.all(2),
-            constraints: const BoxConstraints(
-              minHeight: 12,
-              minWidth: 13,
-            ),
-            decoration: circleBadgeDecoration,
-            child: countText,
-          ),
-        );
-      },
-    );
-
-    return IconButton(
-      onPressed: showCartItems,
-      padding: const EdgeInsets.all(4),
-      color: Colors.grey[900],
-      iconSize: 27,
-      icon: Stack(
-        children: [
-          const Icon(
-            Icons.shopping_cart,
-            color: Colors.white,
-          ),
-          countBadge,
-        ],
-      ),
     );
   }
 }
