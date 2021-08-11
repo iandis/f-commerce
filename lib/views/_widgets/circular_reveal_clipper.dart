@@ -1,12 +1,10 @@
 import 'dart:math' show sqrt, max;
 import 'package:flutter/material.dart';
 
-/// Copied from `Circular Reveal Animation` by
-/// Alexander Zhdanov (https://github.com/qwert2603).
+/// Copyright 2021 Alexander Zhdanov
+/// https://github.com/qwert2603
 ///
-/// Make sure to drop a star on his repo😀
-///
-/// Ref: https://github.com/qwert2603/circular_reveal_animation/blob/master/lib/src/circular_reveal_clipper.dart
+/// Licensed under the Apache License, Version 2.0 (the "License");
 @immutable
 class CircularRevealClipper extends CustomClipper<Path> {
   final double fraction;
