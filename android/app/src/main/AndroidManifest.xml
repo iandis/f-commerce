@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.iandis.dekornata_app">
+    package="app.iandis.fcommerce">
    <application
-        android:label="Dekornata"
+        android:label="f-commerce"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

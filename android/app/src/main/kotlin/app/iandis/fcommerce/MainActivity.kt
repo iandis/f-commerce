@@ -1,4 +1,4 @@
-package app.iandis.dekornata_app
+package app.iandis.fcommerce
 
 import io.flutter.embedding.android.FlutterActivity
 
