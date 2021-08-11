@@ -26,7 +26,7 @@ class _HomeScreenState extends _HomeScreenProps with _HomeScreenWidgets {
       onWillPop: () async => _scrollToTop(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Dekornata'),
+          title: const Text('f-commerce'),
           actions: [
             cartCountIcon,
           ],
