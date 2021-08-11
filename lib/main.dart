@@ -4,7 +4,6 @@ import 'package:intl/date_symbol_data_local.dart' as intl show initializeDateFor
 import 'package:intl/intl.dart' as intl show Intl;
 
 import 'core/constants/app_routes.dart';
-import 'core/constants/app_theme.dart';
 import 'core/helpers/screen_router.dart';
 import 'singletons.dart';
 
@@ -13,6 +12,7 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.white,
     ),
   );
   intl.Intl.defaultLocale = 'id';
@@ -28,11 +28,15 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dekornata',
+      title: 'f-commerce',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        accentColor: AppTheme.accentColor,
-        primaryColor: AppTheme.primaryColor,
+        brightness: Brightness.light,
+        primarySwatch: Colors.teal,
+        appBarTheme: Theme.of(context).appBarTheme.copyWith(
+          elevation: 4,
+          shadowColor: Colors.grey.withOpacity(0.5),
+        ),
       ),
       initialRoute: AppRoutes.home,
       onGenerateRoute: ScreenRouter.onGenerateRoute,
