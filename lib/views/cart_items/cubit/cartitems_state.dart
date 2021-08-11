@@ -19,18 +19,18 @@ class CartItemsLoading extends CartItemsState {
 class CartItemsLoaded extends CartItemsState {
   const CartItemsLoaded(this.cartItems);
   
-  final List<CartItem> cartItems;
+  final List<PredicativeValue<CartItem>> cartItems;
   
   @override
   List<Object> get props => [cartItems];
 }
 
 class CartItemsModifying extends CartItemsLoaded {
-  const CartItemsModifying(List<CartItem> cartItems) : super(cartItems);
+  const CartItemsModifying(List<PredicativeValue<CartItem>> cartItems) : super(cartItems);
 } 
 
 class CartItemsModified extends CartItemsLoaded {
-  const CartItemsModified(List<CartItem> cartItems) : super(cartItems);
+  const CartItemsModified(List<PredicativeValue<CartItem>> cartItems) : super(cartItems);
 }
 
 class CartItemsError extends CartItemsState {
