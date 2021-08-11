@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '/core/constants/app_routes.dart';
-import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/checkout_items.dart';
 import '/views/_widgets/cart_item_tile.dart';
@@ -87,7 +86,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
               Text(
                 'Summary',
                 style: TextStyle(
-                  color: AppTheme.secondaryColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 21,
                 ),
