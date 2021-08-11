@@ -1,19 +1,18 @@
+import 'package:fcommerce/core/models/stateful_value/stateful_value.dart';
+import 'package:fcommerce/core/models/cart/cart_item.dart';
+import 'package:fcommerce/views/_widgets/stateful_cart_item_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
 import '/core/helpers/formatters.dart';
-import '/core/models/cart/cart_item.dart';
 import '/core/models/cart/checkout_items.dart';
 import '/core/services/screen_messenger/base_screen_messenger.dart';
-import '/views/_widgets/cart_item_tile.dart';
 import '/views/cart_items/cubit/cartitems_cubit.dart';
 
 part 'cart_items_props.dart';
 part 'cart_items_widgets.dart';
-
-typedef VLB<T> = ValueListenableBuilder<T>;
 
 class CartItemsScreen extends StatefulWidget {
   final bool centerTitle;
@@ -60,7 +59,9 @@ class _CartItemsScreenState extends _CartItemsProps with _CartItemsWidgets {
             if (state.cartItems.isEmpty) {
               return cartItemsEmpty;
             }
-            return cartItemsList(state);
+            return cartItemsList;
+          } else if(state is CartItemsError) {
+            return cartItemsEmpty;
           }
           return Container(
             alignment: Alignment.center,
@@ -69,16 +70,13 @@ class _CartItemsScreenState extends _CartItemsProps with _CartItemsWidgets {
           );
         },
       ),
-      bottomSheet: BlocBuilder<CartItemsCubit,CartItemsState>(
+      bottomSheet: BlocBuilder<CartItemsCubit, CartItemsState>(
         bloc: _cartItemsCubit,
-        buildWhen: (prev, current) => current is CartItemsLoaded || current is CartItemsModified,
         builder: (_, state) {
-          if(state is CartItemsLoaded) {
-            if(state.cartItems.isNotEmpty) {
-              return totalPriceCell(state);
-            }
+          if(state is CartItemsLoaded && state.cartItems.isEmpty) {
+            return const SizedBox();
           }
-          return const SizedBox();
+          return totalPriceCell;
         },
       ),
     );

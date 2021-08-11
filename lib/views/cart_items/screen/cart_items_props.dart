@@ -2,7 +2,7 @@ part of '_cart_items_screen.dart';
 
 abstract class _CartItemsProps extends State<CartItemsScreen> {
   final _cartItemsCubit = CartItemsCubit();
-  final _selectedCartItems = ValueNotifier<Set<int>>({});
+  final _cartItemListKey = GlobalKey<AnimatedListState>();
 
   @override
   void initState() {
@@ -13,32 +13,12 @@ abstract class _CartItemsProps extends State<CartItemsScreen> {
   @override
   void dispose() {
     _cartItemsCubit.close();
-    _selectedCartItems.dispose();
     super.dispose();
-  }
-
-  void _selectCartItem(CartItem item) {
-    final newSelectedCartItems = _selectedCartItems.value.toSet();
-    if (_selectedCartItems.value.contains(item.id)) {
-      newSelectedCartItems.remove(item.id);
-      _selectedCartItems.value = newSelectedCartItems;
-    } else {
-      newSelectedCartItems.add(item.id);
-      _selectedCartItems.value = newSelectedCartItems;
-    }
-  }
-
-  void _removeCartItem(CartItem item) {
-    final newSelectedCartItems = _selectedCartItems.value.toSet();
-    newSelectedCartItems.remove(item.id);
-    _selectedCartItems.value = newSelectedCartItems;
-    _cartItemsCubit.removeItem(item);
   }
 
   void _gotoConfirmationPage() {
     if (_cartItemsCubit.state is! CartItemsLoaded) return;
-    final currentState = _cartItemsCubit.state as CartItemsLoaded;
-    final selectedCartItems = currentState.cartItems.where((c) => _selectedCartItems.value.contains(c.id)).toList();
+    final selectedCartItems = _cartItemsCubit.getSelectedCartItems();
     final checkoutItems = CheckoutItems.withRandomInvoiceId(
       cartItems: selectedCartItems,
       destination: '--',
@@ -46,6 +26,38 @@ abstract class _CartItemsProps extends State<CartItemsScreen> {
     Navigator.of(context).pushNamed(
       AppRoutes.confirmation,
       arguments: checkoutItems,
+    );
+  }
+
+  void _removeItem({
+    required PredicativeValue<CartItem> item,
+    required int index,
+  }) {
+    
+    _cartItemListKey.currentState?.removeItem(
+      index,
+      (_, animation) {
+        const begin = Offset(1.0, 0);
+        const end = Offset(0.0, 0);
+        const curve = Curves.linear;
+        final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: animation.drive(tween),
+            child: StatefulCartItemTile(
+              currentItem: item,
+              onStateChanged: null,
+              onRemove: () {},
+            ),
+          ),
+        );
+      },
+      duration: const Duration(milliseconds: 250),
+    );
+    _cartItemsCubit.removeItem(
+      item: item.value,
+      index: index,
     );
   }
 }

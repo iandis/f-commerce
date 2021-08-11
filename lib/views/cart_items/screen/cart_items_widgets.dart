@@ -1,39 +1,34 @@
 part of '_cart_items_screen.dart';
 
 mixin _CartItemsWidgets on _CartItemsProps {
-  Widget cartItemsList(CartItemsLoaded state) {
+  Widget get cartItemsList {
+    final state = _cartItemsCubit.state as CartItemsLoaded;
     return Container(
       color: widget.backgroundColor,
       margin: const EdgeInsets.only(bottom: 56),
-      child: ListView.builder(
+      child: AnimatedList(
+        key: _cartItemListKey,
         padding: const EdgeInsets.symmetric(vertical: 10),
-        itemBuilder: (_, index) {
+        itemBuilder: (_, index, __) {
           final currentItem = state.cartItems[index];
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: VLB<Set<int>>(
-                  valueListenable: _selectedCartItems,
-                  builder: (_, selectedItems, __) => Checkbox(
-                    value: selectedItems.contains(currentItem.id),
-                    onChanged: (_) => _selectCartItem(currentItem),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 9,
-                child: CartItemTile(
-                  cartItem: currentItem,
-                  onIncrement: () => _cartItemsCubit.incrementItem(currentItem),
-                  onDecrement: () => _cartItemsCubit.decrementItem(currentItem),
-                  onRemove: () => _removeCartItem(currentItem),
-                ),
-              ),
-            ],
+          return StatefulCartItemTile(
+            currentItem: currentItem,
+            onStateChanged: (_) => _cartItemsCubit.toggleItem(index),
+            onIncrement: () => _cartItemsCubit.incrementItem(
+              item: currentItem.value,
+              index: index,
+            ),
+            onDecrement: () => _cartItemsCubit.decrementItem(
+              item: currentItem.value,
+              index: index,
+            ),
+            onRemove: () => _removeItem(
+              item: currentItem,
+              index: index,
+            ),
           );
         },
-        itemCount: state.cartItems.length,
+        initialItemCount: state.cartItems.length,
       ),
     );
   }
@@ -61,30 +56,18 @@ mixin _CartItemsWidgets on _CartItemsProps {
     );
   }
 
-  Widget totalPriceCell(CartItemsLoaded state) {
-    return VLB<Set<int>>(
-      valueListenable: _selectedCartItems,
-      builder: (_, selectedItems, __) {
-        final totalPrice = state.cartItems.where((c) => selectedItems.contains(c.id)).fold<double>(
-          0,
-          (total, item) {
-            return total += item.totalPrice;
-          },
-        );
-        return ListTile(
-          leading: const Text('Total'),
-          title: Text(
-            Formatters.formatPrice(totalPrice),
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          trailing: ElevatedButton(
-            onPressed: totalPrice > 0 ? _gotoConfirmationPage : null,
-            child: const Text('Checkout'),
-          ),
-        );
-      },
+  Widget get totalPriceCell {
+    final currentTotalPrice = _cartItemsCubit.calculateSelectedCartItemsTotalPrice();
+    return ListTile(
+      leading: const Text('Total'),
+      title: Text(
+        Formatters.formatPrice(currentTotalPrice),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      trailing: ElevatedButton(
+        onPressed: currentTotalPrice > 0 ? _gotoConfirmationPage : null,
+        child: const Text('Checkout'),
+      ),
     );
   }
 }
