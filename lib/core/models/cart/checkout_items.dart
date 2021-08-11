@@ -44,7 +44,7 @@ class CheckoutItems {
   }) {
     final currentDate = _dateFormatter.format(DateTime.now());
     final random6alphanumeric = RandomGenHelper.generateAlphanumeric(6).toUpperCase();
-    final randomInvoiceId = 'INVOICE/$currentDate/DEKORNATA/$random6alphanumeric';
+    final randomInvoiceId = 'INVOICE/$currentDate/FCOMMERCE/$random6alphanumeric';
     return CheckoutItems(
       cartItems: cartItems,
       destination: destination,
