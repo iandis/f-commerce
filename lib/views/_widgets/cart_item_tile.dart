@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '/core/constants/app_theme.dart';
 import '/core/helpers/formatters.dart';
 import '/core/models/cart/cart_item.dart';
 import '/views/_widgets/number_spinner.dart';
@@ -105,7 +104,6 @@ class CartItemTile extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: AppTheme.accentColor,
       ),
       child: Text('${cartItem.amount}'),
     );
