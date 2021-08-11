@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/core/constants/app_theme.dart';
-
 typedef MSP<T> = MaterialStateProperty<T>;
 
 class NumberSpinner extends StatefulWidget {
@@ -108,26 +106,14 @@ class _NumberSpinnerState extends State<NumberSpinner> {
       ),
     );
 
-    final buttonOverlayColor = MSP.all(AppTheme.secondaryColor);
-
-    final buttonBackgroundColor = MSP.resolveWith((states) {
-      if (states.contains(MaterialState.disabled)) {
-        return AppTheme.secondaryColor;
-      }
-      return AppTheme.primaryColor;
-    });
-
     final buttonShape = MSP.all(
       RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular((_screenWidth / 100) *1.5),
+        borderRadius: BorderRadius.circular((_screenWidth / 100) * 1.5),
       ),
     );
 
     final buttonStyle = ButtonStyle(
       padding: MSP.all(const EdgeInsets.all(1)),
-      overlayColor: buttonOverlayColor,
-      foregroundColor: MSP.all(Colors.white),
-      backgroundColor: buttonBackgroundColor,
       shape: buttonShape,
     );
 
