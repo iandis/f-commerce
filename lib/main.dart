@@ -31,12 +31,13 @@ class App extends StatelessWidget {
       title: 'f-commerce',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        brightness: Brightness.light,
         primarySwatch: Colors.teal,
         appBarTheme: Theme.of(context).appBarTheme.copyWith(
-          elevation: 4,
+          brightness: Brightness.dark,
+          elevation: 1,
           shadowColor: Colors.grey.withOpacity(0.5),
         ),
+        fontFamily: 'Poppins',
       ),
       initialRoute: AppRoutes.home,
       onGenerateRoute: ScreenRouter.onGenerateRoute,
