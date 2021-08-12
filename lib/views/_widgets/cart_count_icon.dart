@@ -37,8 +37,8 @@ class CartCountIcon extends StatelessWidget {
         );
 
         return Positioned(
-          right: 0,
-          bottom: 0,
+          right: 0.4,
+          bottom: 0.4,
           child: Container(
             padding: const EdgeInsets.all(2),
             constraints: const BoxConstraints(
@@ -52,12 +52,22 @@ class CartCountIcon extends StatelessWidget {
       },
     );
 
+    const shoppingCartShadow = Positioned(
+      top: 1.0,
+      right: 1.0,
+      child: Icon(
+        Icons.shopping_cart,
+        color: Colors.black12,
+      ),
+    );
+
     return IconButton(
       onPressed: onTap,
       padding: const EdgeInsets.all(4),
       iconSize: 27,
       icon: Stack(
         children: [
+          shoppingCartShadow,
           const Icon(Icons.shopping_cart),
           countBadge,
         ],
