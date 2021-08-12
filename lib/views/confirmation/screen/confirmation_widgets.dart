@@ -11,6 +11,7 @@ mixin _ConfirmationWidgets on _ConfirmationProps {
             state.userAddress,
             maxLines: 3,
             textAlign: TextAlign.justify,
+            style: const TextStyle(fontFamily: 'Lato'),
           );
         } else if (state is ConfirmationError) {
           address = IconButton(
@@ -48,7 +49,10 @@ mixin _ConfirmationWidgets on _ConfirmationProps {
           color: Colors.grey,
         ),
         const SizedBox(width: 5),
-        Text(widget.checkoutItems.invoiceId),
+        Text(
+          widget.checkoutItems.invoiceId,
+          style: const TextStyle(fontFamily: 'Lato'),
+        ),
       ],
     );
   }

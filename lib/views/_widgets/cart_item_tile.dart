@@ -61,7 +61,10 @@ class CartItemTile extends StatelessWidget {
   }
 
   Widget get itemCountCell {
-    final itemPrice = Text(Formatters.formatPrice(cartItem.totalPrice));
+    final itemPrice = Text(
+      Formatters.formatPrice(cartItem.totalPrice),
+      style: const TextStyle(fontFamily: 'Lato'),
+    );
 
     final Widget boxChild;
 
@@ -110,6 +113,7 @@ class CartItemTile extends StatelessWidget {
         '${cartItem.amount}',
         style: const TextStyle(
           color: Colors.white,
+          fontFamily: 'Lato',
         ),
       ),
     );

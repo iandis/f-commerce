@@ -27,7 +27,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Success'),
-          brightness: Brightness.dark,
           centerTitle: true,
         ),
         body: Container(
@@ -45,6 +44,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
       widget.checkoutItems.destination,
       maxLines: 3,
       textAlign: TextAlign.justify,
+      style: const TextStyle(fontFamily: 'Lato'),
     );
     return Row(
       children: [
@@ -70,7 +70,10 @@ class _SuccessScreenState extends State<SuccessScreen> {
           color: Colors.grey,
         ),
         const SizedBox(width: 5),
-        Text(widget.checkoutItems.invoiceId),
+        Text(
+          widget.checkoutItems.invoiceId,
+          style: const TextStyle(fontFamily: 'Lato'),
+        ),
       ],
     );
   }

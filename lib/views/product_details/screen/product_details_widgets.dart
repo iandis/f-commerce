@@ -62,6 +62,7 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
+              height: 1.2,
             ),
           ),
         ),
@@ -83,7 +84,7 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
       Formatters.formatPrice(state.productDetails.price),
       style: const TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w500,
+        fontFamily: 'Lato',
       ),
     );
 
@@ -157,13 +158,14 @@ mixin _ProductDetailsWidgets on _ProductDetailsProps {
             const SizedBox(height: 15),
             Text(
               state.productDetails.description,
-              textAlign: TextAlign.justify,
               style: const TextStyle(
                 fontSize: 18,
-                wordSpacing: 1.5,
+                fontFamily: 'Lato',
               ),
             ),
             const Divider(),
+            const SizedBox(height: 15),
+
           ],
         ),
       ),
