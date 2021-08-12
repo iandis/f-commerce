@@ -2,7 +2,7 @@ name: fcommerce
 description: f-commerce by Iandi Santulus
 
 publish_to: 'none'
-version: 0.0.0+2
+version: 0.0.1+3
 
 environment:
   sdk: ">=2.13.4 <3.0.0"
