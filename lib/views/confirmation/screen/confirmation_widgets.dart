@@ -111,6 +111,13 @@ mixin _ConfirmationWidgets on _ConfirmationProps {
           }
           return ElevatedButton(
             onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              shadowColor: Colors.transparent,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+            ),
             child: const Text('Confirm'),
           );
         },
