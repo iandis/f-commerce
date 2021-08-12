@@ -31,7 +31,6 @@ class _ConfirmationScreenState extends _ConfirmationProps with _ConfirmationWidg
     return Scaffold(
       appBar: AppBar(
         title: const Text('Confirmation'),
-        brightness: Brightness.dark,
       ),
       body: BlocListener<ConfirmationCubit, ConfirmationState>(
         bloc: _confirmationCubit,
