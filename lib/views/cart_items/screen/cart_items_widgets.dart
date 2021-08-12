@@ -58,15 +58,33 @@ mixin _CartItemsWidgets on _CartItemsProps {
 
   Widget get totalPriceCell {
     final currentTotalPrice = _cartItemsCubit.calculateSelectedCartItemsTotalPrice();
-    return ListTile(
-      leading: const Text('Total'),
-      title: Text(
-        Formatters.formatPrice(currentTotalPrice),
-        style: const TextStyle(fontWeight: FontWeight.bold),
-      ),
-      trailing: ElevatedButton(
-        onPressed: currentTotalPrice > 0 ? _gotoConfirmationPage : null,
-        child: const Text('Checkout'),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        children: [
+          const Expanded(child: Text('Total')),
+          Expanded(
+            flex: 4,
+            child: Text(
+              Formatters.formatPrice(currentTotalPrice),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: currentTotalPrice > 0 ? _gotoConfirmationPage : null,
+              style: ElevatedButton.styleFrom(
+                elevation: 0,
+                shadowColor: Colors.transparent,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                ),
+              ),
+              child: const Text('Checkout'),
+            ),
+          ),
+        ],
       ),
     );
   }
