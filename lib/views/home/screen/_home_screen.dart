@@ -1,12 +1,15 @@
-import 'package:fcommerce/views/_widgets/error_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter/rendering.dart' show ScrollDirection;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '/core/constants/app_routes.dart';
+import '/core/models/notification/notification.dart';
+import '/core/services/navigation_service/base_navigation_service.dart';
+import '/core/services/notification_service/base_notification_service.dart';
 import '/core/services/screen_messenger/base_screen_messenger.dart';
 import '/views/_widgets/cart_count_icon.dart';
+import '/views/_widgets/error_screen.dart';
 import '/views/_widgets/product_card/product_card.dart';
 import '/views/_widgets/product_card/product_card_loading.dart';
 import '/views/home/cubit/home_cubit.dart';

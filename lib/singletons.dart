@@ -10,6 +10,10 @@ import 'core/services/localdb_service/base_localdb_service.dart';
 import 'core/services/localdb_service/localdb_service.dart';
 import 'core/services/location_service/base_location_service.dart';
 import 'core/services/location_service/location_service.dart';
+import 'core/services/navigation_service/base_navigation_service.dart';
+import 'core/services/navigation_service/navigation_service.dart';
+import 'core/services/notification_service/base_notification_service.dart';
+import 'core/services/notification_service/notification_service.dart';
 import 'core/services/screen_messenger/base_screen_messenger.dart';
 import 'core/services/screen_messenger/screen_messenger.dart';
 
@@ -18,7 +22,10 @@ void initSingletons() {
   GetIt.I.registerSingleton<BaseLocalDbService>(LocalDbService());
   GetIt.I.registerSingleton<BaseProductsRepository>(ProductsRepository());
   GetIt.I.registerSingleton<BaseCartItemsRepository>(CartItemsRepository());
+  GetIt.I.registerSingleton<BaseNotificationService>(const NotificationService());
 
   GetIt.I.registerLazySingleton<BaseLocationService>(() => LocationService());
   GetIt.I.registerLazySingleton<BaseScreenMessenger>(() => ScreenMessenger());
+  // ignore: deprecated_member_use_from_same_package
+  GetIt.I.registerLazySingleton<BaseNavigationService>(() => NavigationService());
 }
